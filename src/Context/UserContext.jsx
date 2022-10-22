@@ -1,4 +1,4 @@
-import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
+import { createUserWithEmailAndPassword, sendEmailVerification, updateProfile } from 'firebase/auth';
 import React, { createContext, useState } from 'react';
 import { getAuth } from "firebase/auth";
 import app from '../Firebase/firebase.init';
@@ -21,12 +21,16 @@ const UserContext = ({ children }) => {
     const nameUpdate = (name) => {
         return updateProfile(auth.currentUser, { displayName: name });
     }
+    const varifyEmail = () => {
+        return sendEmailVerification(auth.currentUser)
+
+    }
 
 
 
 
 
-    const authInfo = { createUser, nameUpdate }
+    const authInfo = { createUser, nameUpdate, varifyEmail, }
 
 
     return (

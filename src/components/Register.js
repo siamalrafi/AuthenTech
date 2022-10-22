@@ -10,7 +10,7 @@ const auth = getAuth(app);
 
 const Register = () => {
 
-  const { createUser, nameUpdate } = useContext(AuthContext);
+  const { createUser, nameUpdate, varifyEmail } = useContext(AuthContext);
 
 
 
@@ -32,13 +32,14 @@ const Register = () => {
       .then((result) => {
         // updateProfile
         const user = result.user;
+        toast.success(`${name},Successfully Sign In.`);
         nameUpdate(name)
           .then(() => {
             toast.success('Profile Name updated!');
             // console.log(auth.currentUser)
 
             // Email verification set up.
-            sendEmailVerification(auth.currentUser)
+            varifyEmail()
               .then(() => {
                 toast.success('Email verification sent!');
               });
