@@ -4,8 +4,8 @@ import { AuthContext } from "../Context/UserContext"
 
 const Login = () => {
 
-  const { user } = useContext(AuthContext);
-  console.log(user.name);
+  // const { user } = useContext(AuthContext);
+  // console.log(user.name);
 
   return (
     <div className='flex justify-center items-center pt-8'>

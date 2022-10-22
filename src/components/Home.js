@@ -13,12 +13,14 @@ const Home = () => {
             using email password. Powered by Firebase.!
           </p>
           <div className='flex flex-wrap justify-center'>
-            <button
-              type='button'
-              className='px-8 py-3 m-2 text-lg font-semibold rounded bg-gray-800 hover:bg-gray-700 text-gray-50'
-            >
-              Visit Profile
-            </button>
+            <Link to='/profile'>
+              <button
+                type='button'
+                className='px-8 py-3 m-2 text-lg font-semibold rounded bg-gray-800 hover:bg-gray-700 text-gray-50'
+              >
+                Visit Profile
+              </button>
+            </Link>
             <Link to='/login'>
               <button
                 type='button'
