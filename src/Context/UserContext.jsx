@@ -19,7 +19,7 @@ const UserContext = ({ children }) => {
     }
 
     const nameUpdate = (name) => {
-        return updateProfile(auth.currentUser, name);
+        return updateProfile(auth.currentUser, { displayName: name });
     }
 
 

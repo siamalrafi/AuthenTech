@@ -32,9 +32,7 @@ const Register = () => {
       .then((result) => {
         // updateProfile
         const user = result.user;
-        updateProfile(auth.currentUser, {
-          displayName: name
-        })
+        nameUpdate(name)
           .then(() => {
             toast.success('Profile Name updated!');
             // console.log(auth.currentUser)
