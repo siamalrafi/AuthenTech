@@ -1,13 +1,16 @@
-import React from 'react'
 import { Link } from 'react-router-dom';
-import { createUserWithEmailAndPassword, getAuth, GoogleAuthProvider, sendEmailVerification, signInWithPopup, updateEmail, updateProfile } from "firebase/auth";
+import { getAuth, GoogleAuthProvider, sendEmailVerification, signInWithPopup, updateEmail, updateProfile } from "firebase/auth";
 import app from '../Firebase/firebase.init';
 import { toast } from 'react-toastify';
+import { AuthContext } from '../Context/UserContext';
+import { useContext } from 'react';
 
 
 const auth = getAuth(app);
 
 const Register = () => {
+
+  const { createUser, nameUpdate } = useContext(AuthContext);
 
 
 
@@ -24,7 +27,8 @@ const Register = () => {
     // console.log(name, email, password);
 
     //create user with email and password
-    createUserWithEmailAndPassword(auth, email, password)
+    // createUserWithEmailAndPassword(auth, email, password)
+    createUser(email, password)
       .then((result) => {
         // updateProfile
         const user = result.user;
