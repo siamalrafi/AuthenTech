@@ -10,7 +10,7 @@ const auth = getAuth(app);
 
 const Register = () => {
 
-  const { createUser, nameUpdate, varifyEmail } = useContext(AuthContext);
+  const { createUser, nameUpdate, varifyEmail, googleSignIn, } = useContext(AuthContext);
 
 
 
@@ -61,7 +61,7 @@ const Register = () => {
   const handleGoogleSignIn = () => {
     // console.log('ljdfljs');
 
-    signInWithPopup(auth, provider)
+    googleSignIn()
       .then((result) => {
         // The signed-in user info.
         const user = result.user;
