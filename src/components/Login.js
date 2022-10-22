@@ -1,4 +1,12 @@
+import { useContext } from "react"
+import { Link } from "react-router-dom"
+import { AuthContext } from "../Context/UserContext"
+
 const Login = () => {
+
+  const { user } = useContext(AuthContext);
+  console.log(user.name);
+
   return (
     <div className='flex justify-center items-center pt-8'>
       <div className='flex flex-col max-w-md p-6 rounded-md sm:p-10 bg-gray-100 text-gray-900'>
@@ -95,10 +103,9 @@ const Login = () => {
         </div>
         <p className='px-6 text-sm text-center text-gray-400'>
           Don't have an account yet?{' '}
-          <a href='#' to='/register' className='hover:underline text-gray-600'>
+          <Link to='/login' className='hover:underline text-gray-600'>
             Sign up
-          </a>
-          .
+          </Link>
         </p>
       </div>
     </div>

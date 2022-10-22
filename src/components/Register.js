@@ -1,6 +1,76 @@
 import React from 'react'
+import { Link } from 'react-router-dom';
+import { createUserWithEmailAndPassword, getAuth, GoogleAuthProvider, sendEmailVerification, signInWithPopup, updateEmail, updateProfile } from "firebase/auth";
+import app from '../Firebase/firebase.init';
+import { toast } from 'react-toastify';
+
+
+const auth = getAuth(app);
 
 const Register = () => {
+
+
+
+  const provider = new GoogleAuthProvider();
+
+  //create user with email and password
+  const handleSubmit = event => {
+    event.preventDefault();
+
+    const form = event.target;
+    const name = form.name.value;
+    const email = form.email.value;
+    const password = form.password.value;
+    // console.log(name, email, password);
+
+    //create user with email and password
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((result) => {
+        // updateProfile
+        const user = result.user;
+        updateProfile(auth.currentUser, {
+          displayName: name
+        })
+          .then(() => {
+            toast.success('Profile Name updated!');
+            // console.log(auth.currentUser)
+
+            // Email verification set up.
+            sendEmailVerification(auth.currentUser)
+              .then(() => {
+                toast.success('Email verification sent!');
+              });
+
+          })
+          .catch((error) => {
+            toast.error(error.message)
+          });
+
+        // ...
+        console.log(user);
+      })
+
+
+      .catch((error) => console.error(error));
+  }
+
+  //create user with google sign in 
+  const handleGoogleSignIn = () => {
+    // console.log('ljdfljs');
+
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        // The signed-in user info.
+        const user = result.user;
+        console.log(user);
+        // ...
+      })
+      .catch((error) => console.error(error.message))
+
+  }
+
+
+
   return (
     <div className='flex justify-center items-center pt-8'>
       <div className='flex flex-col max-w-md p-6 rounded-md sm:p-10 bg-gray-100 text-gray-900'>
@@ -9,6 +79,7 @@ const Register = () => {
           <p className='text-sm text-gray-400'>Create a new account</p>
         </div>
         <form
+          onSubmit={handleSubmit}
           noValidate=''
           action=''
           className='space-y-12 ng-untouched ng-pristine ng-valid'
@@ -74,7 +145,9 @@ const Register = () => {
           <div className='flex-1 h-px sm:w-16 dark:bg-gray-700'></div>
         </div>
         <div className='flex justify-center space-x-4'>
-          <button aria-label='Log in with Google' className='p-3 rounded-sm'>
+          <button
+            onClick={handleGoogleSignIn}
+            aria-label='Log in with Google' className='p-3 rounded-sm'>
             <svg
               xmlns='http://www.w3.org/2000/svg'
               viewBox='0 0 32 32'
@@ -104,9 +177,9 @@ const Register = () => {
         </div>
         <p className='px-6 text-sm text-center text-gray-400'>
           Already have an account yet?{' '}
-          <a href='#' className='hover:underline text-gray-600'>
+          <Link to='/login' className='hover:underline text-gray-600'>
             Sign In
-          </a>
+          </Link>
           .
         </p>
       </div>

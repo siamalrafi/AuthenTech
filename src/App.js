@@ -1,11 +1,41 @@
-import React from 'react'
+import React from 'react';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import Home from '../src/components/Home';
+import Login from '../src/components/Login';
+import Register from '../src/components/Register';
+import ErrorPage from '../src/components/ErrorPage'
+import Main from './Layout/Main';
+
+
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <Main></Main>,
+    errorElement: <ErrorPage></ErrorPage>,
+    children: [
+      {
+        path: '/',
+        element: <Home></Home>
+      },
+      {
+        path: '/login',
+        element: <Login></Login>
+      },
+      {
+        path: '/register',
+        element: <Register></Register>
+      } 
+    ]
+  }
+
+])
 
 function App() {
   return (
-    <div className='flex justify-center items-center min-h-screen'>
-      <h1 className='text-3xl'>Welcome to Authentech</h1>
-    </div>
+    <RouterProvider router={router}>
+
+    </RouterProvider>
   )
 }
 
-export default App
+export default App;
