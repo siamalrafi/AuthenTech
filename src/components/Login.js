@@ -1,20 +1,20 @@
-import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-import { useContext } from "react"
+import { getAuth, GoogleAuthProvider, sendPasswordResetEmail, signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
+import { useContext, useState } from "react"
 import { Link } from "react-router-dom"
+import { toast } from "react-toastify";
 import { AuthContext } from "../Context/UserContext"
 import app from "../Firebase/firebase.init";
 
 const auth = getAuth(app);
-const provider = new GoogleAuthProvider();
+const googleProvider = new GoogleAuthProvider();
 
 
 const Login = () => {
 
   const { signIn, resetPassword } = useContext(AuthContext);
 
-
   const handleSubmit = (event) => {
-    event.preventDefault()
+    event.preventDefault();
 
     const form = event.target;
     const email = form.email.value;
@@ -22,25 +22,26 @@ const Login = () => {
     // console.log(email, password);
 
     signIn(email, password)
-      .then(result => result.user)
-      .catch(error => console.error(error))
-
-
+      .then((result) => {
+        const user = result.user;
+      })
+      .catch((error) => {
+        console.error(error)
+      });
   }
 
   // Google sign in 
   const handleGoogleSignIn = () => {
-    signInWithPopup(auth, provider)
+    signInWithPopup(auth, googleProvider)
       .then((result) => {
         const user = result.user;
-        console.log(user);
         // ...
       }).catch((error) => {
         // Handle Errors here.
         const errorCode = error.code;
       });
-    console.log('ljsdflj');
   }
+
 
 
   return (
@@ -87,7 +88,6 @@ const Login = () => {
               />
             </div>
           </div>
-
           <div>
             <button
               type='submit'
@@ -111,6 +111,7 @@ const Login = () => {
         </div>
         <div className='flex justify-center space-x-4'>
           <button
+
             onClick={handleGoogleSignIn}
 
             aria-label='Log in with Google' className='p-3 rounded-sm'>
@@ -143,7 +144,7 @@ const Login = () => {
         </div>
         <p className='px-6 text-sm text-center text-gray-400'>
           Don't have an account yet?{' '}
-          <Link to='/login' className='hover:underline text-gray-600'>
+          <Link to='/register' className='hover:underline text-gray-600'>
             Sign up
           </Link>
         </p>

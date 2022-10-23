@@ -29,7 +29,11 @@ const UserContext = ({ children }) => {
 
     const signIn = (email, password) => {
         return signInWithEmailAndPassword(auth, email, password)
+
     }
+
+
+    
     //reset password
     const resetPassword = (email) => {
         return sendPasswordResetEmail(auth, email);
