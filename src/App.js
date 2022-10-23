@@ -7,42 +7,8 @@ import ErrorPage from '../src/components/ErrorPage';
 import Profile from '../src/components/Profile';
 import Wallet from '../src/components/Wallet';
 import Main from './Layout/Main';
+import router from '../src/Routes/Routes';
 
-
-const router = createBrowserRouter([
-  {
-    path: '/',
-    element: <Main></Main>,
-    errorElement: <ErrorPage></ErrorPage>,
-    children: [
-      {
-        path: '/',
-        element: <Home></Home>
-      },
-      {
-        path: '/home',
-        element: <Home></Home>
-      },
-      {
-        path: '/login',
-        element: <Login></Login>
-      },
-      {
-        path: '/register',
-        element: <Register></Register>
-      },
-      {
-        path:'/profile',
-        element:<Profile></Profile>
-      },
-      {
-        path:'/wallet',
-        element:<Wallet></Wallet>
-      }
-    ]
-  }
-
-])
 
 function App() {
   return (
