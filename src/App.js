@@ -1,12 +1,5 @@
 import React from 'react';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import Home from '../src/components/Home';
-import Login from '../src/components/Login';
-import Register from '../src/components/Register';
-import ErrorPage from '../src/components/ErrorPage';
-import Profile from '../src/components/Profile';
-import Wallet from '../src/components/Wallet';
-import Main from './Layout/Main';
+import {   RouterProvider } from 'react-router-dom';
 import router from '../src/Routes/Routes';
 
 

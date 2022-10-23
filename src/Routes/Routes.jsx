@@ -6,36 +6,43 @@ import Profile from "../components/Profile";
 import Register from "../components/Register";
 import Wallet from "../components/Wallet";
 import Main from "../Layout/Main";
+import PrivateRoutes from "./PrivateRoutes";
 
 const router = createBrowserRouter([
     {
         path: '/',
         element: <Main></Main>,
-        errorElement: <ErrorPage></ErrorPage>,
+        errorElement: <ErrorPage />,
         children: [
             {
                 path: '/',
-                element: <Home></Home>
+                element: <Home />
             },
             {
                 path: '/home',
-                element: <Home></Home>
+                element: <Home />
             },
             {
                 path: '/login',
-                element: <Login></Login>
+                element: <Login />
             },
             {
                 path: '/register',
-                element: <Register></Register>
+                element: <Register />
             },
             {
                 path: '/profile',
-                element: <Profile></Profile>
+                element:
+                    <PrivateRoutes>
+                        <Profile />
+                    </PrivateRoutes>
             },
             {
                 path: '/wallet',
-                element: <Wallet></Wallet>
+                element:
+                    <PrivateRoutes>
+                        <Wallet />
+                    </PrivateRoutes>
             }
         ]
     }

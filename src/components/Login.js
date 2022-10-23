@@ -1,6 +1,6 @@
 import { getAuth, GoogleAuthProvider, sendPasswordResetEmail, signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
-import { useContext, useState } from "react"
-import { Link, useNavigate } from "react-router-dom"
+import { useContext, useEffect, useMemo, useState } from "react"
+import { Link, useLocation, useNavigate } from "react-router-dom"
 import { toast } from "react-toastify";
 import { AuthContext } from "../Context/UserContext"
 import app from "../Firebase/firebase.init";
@@ -10,8 +10,11 @@ const googleProvider = new GoogleAuthProvider();
 
 
 const Login = () => {
-
   const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || '/'
+  const [userEamil, setUserEmail] = useState('');
+
   const { signIn, resetPassword } = useContext(AuthContext);
 
   const handleSubmit = (event) => {
@@ -25,7 +28,7 @@ const Login = () => {
     signIn(email, password)
       .then((result) => {
         const user = result.user;
-        navigate('/profile')
+        navigate(form, { replace: true })
       })
       .catch((error) => {
         console.error(error)
@@ -45,7 +48,13 @@ const Login = () => {
       });
   }
 
-
+  const handleReset = () => {
+    resetPassword(userEamil)
+      .then(() => {
+        toast.success('Reset email has been sent , check your email.')
+      })
+      .catch((error) => toast.error(error.message))
+  }
 
   return (
     <div className='flex justify-center items-center pt-8'>
@@ -68,6 +77,7 @@ const Login = () => {
                 Email address
               </label>
               <input
+                onBlur={(event) => setUserEmail(event.target.value)}
                 type='email'
                 name='email'
                 id='email'
@@ -101,7 +111,9 @@ const Login = () => {
           </div>
         </form>
         <div className='space-y-1'>
-          <button className='text-xs hover:underline text-gray-400'>
+          <button
+            onClick={handleReset}
+            className='text-xs hover:underline text-gray-400'>
             Forgot password?
           </button>
         </div>

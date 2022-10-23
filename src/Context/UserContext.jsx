@@ -11,42 +11,56 @@ const auth = getAuth(app);
 const UserContext = ({ children }) => {
     const googelProvider = new GoogleAuthProvider();
     const [user, setUser] = useState({});
+    const [loading, setLoading] = useState(true);
 
     const createUser = (email, password) => {
+        setLoading(true)
         return createUserWithEmailAndPassword(auth, email, password)
     }
     const nameUpdate = (name) => {
+        setLoading(true)
         return updateProfile(auth.currentUser, { displayName: name });
     }
     const varifyEmail = () => {
+        setLoading(true)
         return sendEmailVerification(auth.currentUser)
     }
 
     // google sign in 
     const googleSignIn = () => {
+        setLoading(true)
         return signInWithPopup(auth, googelProvider)
     }
 
     const signIn = (email, password) => {
+        setLoading(true)
         return signInWithEmailAndPassword(auth, email, password)
-
     }
 
-
-    
     //reset password
     const resetPassword = (email) => {
+        setLoading(true)
         return sendPasswordResetEmail(auth, email);
     }
-
 
     //sign out
     const logOut = () => {
         return signOut(auth);
     }
 
+    useEffect(() => {
+        const unsubscibe = onAuthStateChanged(auth, (currentUser) => {
+            setUser(currentUser);
+            setLoading(false)
+        })
+        return () => {
+            unsubscibe();
+        }
+    }, [])
+
     const authInfo = {
         user,
+        loading,
         createUser,
         nameUpdate,
         varifyEmail,
@@ -55,18 +69,6 @@ const UserContext = ({ children }) => {
         logOut,
         resetPassword,
     }
-
-    useEffect(() => {
-        const unsubscibe = onAuthStateChanged(auth, (currentUser) => {
-            setUser(currentUser);
-        })
-        return () => {
-            unsubscibe();
-        }
-    }, [])
-
-
-
     return (
         <AuthContext.Provider value={authInfo}>
             {children}
