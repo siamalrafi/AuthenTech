@@ -1,6 +1,6 @@
 import { getAuth, GoogleAuthProvider, sendPasswordResetEmail, signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import { useContext, useState } from "react"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { toast } from "react-toastify";
 import { AuthContext } from "../Context/UserContext"
 import app from "../Firebase/firebase.init";
@@ -11,6 +11,7 @@ const googleProvider = new GoogleAuthProvider();
 
 const Login = () => {
 
+  const navigate = useNavigate();
   const { signIn, resetPassword } = useContext(AuthContext);
 
   const handleSubmit = (event) => {
@@ -24,6 +25,7 @@ const Login = () => {
     signIn(email, password)
       .then((result) => {
         const user = result.user;
+        navigate('/profile')
       })
       .catch((error) => {
         console.error(error)
@@ -35,6 +37,7 @@ const Login = () => {
     signInWithPopup(auth, googleProvider)
       .then((result) => {
         const user = result.user;
+        navigate('/profile')
         // ...
       }).catch((error) => {
         // Handle Errors here.
