@@ -1,11 +1,47 @@
+import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { useContext } from "react"
 import { Link } from "react-router-dom"
 import { AuthContext } from "../Context/UserContext"
+import app from "../Firebase/firebase.init";
+
+const auth = getAuth(app);
+const provider = new GoogleAuthProvider();
+
 
 const Login = () => {
 
-  // const { user } = useContext(AuthContext);
-  // console.log(user.name);
+  const { signIn, resetPassword } = useContext(AuthContext);
+
+
+  const handleSubmit = (event) => {
+    event.preventDefault()
+
+    const form = event.target;
+    const email = form.email.value;
+    const password = form.password.value;
+    // console.log(email, password);
+
+    signIn(email, password)
+      .then(result => result.user)
+      .catch(error => console.error(error))
+
+
+  }
+
+  // Google sign in 
+  const handleGoogleSignIn = () => {
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        const user = result.user;
+        console.log(user);
+        // ...
+      }).catch((error) => {
+        // Handle Errors here.
+        const errorCode = error.code;
+      });
+    console.log('ljsdflj');
+  }
+
 
   return (
     <div className='flex justify-center items-center pt-8'>
@@ -17,6 +53,7 @@ const Login = () => {
           </p>
         </div>
         <form
+          onSubmit={handleSubmit}
           noValidate=''
           action=''
           className='space-y-6 ng-untouched ng-pristine ng-valid'
@@ -73,7 +110,10 @@ const Login = () => {
           <div className='flex-1 h-px sm:w-16 dark:bg-gray-700'></div>
         </div>
         <div className='flex justify-center space-x-4'>
-          <button aria-label='Log in with Google' className='p-3 rounded-sm'>
+          <button
+            onClick={handleGoogleSignIn}
+
+            aria-label='Log in with Google' className='p-3 rounded-sm'>
             <svg
               xmlns='http://www.w3.org/2000/svg'
               viewBox='0 0 32 32'
